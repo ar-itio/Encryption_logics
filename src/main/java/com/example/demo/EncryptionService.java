@@ -57,6 +57,28 @@ public class EncryptionService {
             + "    \"payee_vpa\": \"agr.agrlog0000.youtube934.youtube235@cnrf\",\n"
             + "    \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
             + "}";
+       //data to payload
+	private static final String PAY_LOAD_PLAIN ="{\n"
+          + "    \"Request\": {\n"
+          + "        \"body\": {\n"
+          + "            \"encryptData\": {\n"
+          + "                \"mid\": \"AGRLOG0000\",\n"
+          + "                \"channel\": \"api\",\n"
+          + "                \"account_number\": \"04762020001837\",\n"
+          + "                \"mobile_number\": \"914567899787\",\n"
+          + "                \"terminalId\": \"YOUTUBE456\",\n"
+          + "                \"name\": \"Shankar Hotel\",\n"
+          + "                \"bank_name\": \"Canara Bank\",\n"
+          + "                \"mcc\": \"6012\",\n"
+          + "                \"ifsc_code\": \"CNRB0000000\",\n"
+          + "                \"sid\": \"YOUTUBE975\",\n"
+          + "                \"additionalNo\": \"\",\n"
+          + "                \"checksum\": \"ytydtdgdggdg1200345\"\n"
+          + "            }\n"
+          + "        }\n"
+          + "    }\n"
+          + "}";
+
 
     public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
         return encrypt(DATA_TO_ENCRYPT);
@@ -67,7 +89,7 @@ public class EncryptionService {
     }
 
     public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-        return sign(DATA_TO_ENCRYPT);
+        return sign(PAY_LOAD_PLAIN);
     }
 
     public void demonstrateEncryptionAndDecryption() {
