@@ -87,7 +87,8 @@ private static final String PAY_LOAD_PLAIN ="{\n"
     }
 
     public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-        return sign(PAY_LOAD_PLAIN);
+	com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
+        return sign(json.toSring);
     }
 
     public void demonstrateEncryptionAndDecryption() {
