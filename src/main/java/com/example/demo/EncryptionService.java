@@ -67,7 +67,7 @@ public class EncryptionService {
     }
 
     public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-        return sign(PAY_LOAD_PLAIN);
+        return sign(DATA_TO_ENCRYPT);
     }
 
     public void demonstrateEncryptionAndDecryption() {
