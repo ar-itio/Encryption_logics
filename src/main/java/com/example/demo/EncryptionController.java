@@ -30,7 +30,7 @@ public class EncryptionController {
         }
     }
 
-    @PostMapping("/sign")
+    @GetMapping("/sign")
     public String signData() {
         try {
             return encryptionService.signData();
