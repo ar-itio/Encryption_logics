@@ -123,21 +123,55 @@ private static final String PAY_LOAD_PLAIN ="{\n"
         return "     Decrypted Data:  "+jwe.getPlaintextString();
     }
 
-    private String sign(String input) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-        String realPK = CLIENT_PRIVATE_KEY.replaceAll("-----END RSA PRIVATE KEY-----", "")
-                .replaceAll("-----BEGIN RSA PRIVATE KEY-----", "")
-                .replaceAll("\n", "");
-        byte[] b1 = Base64.getDecoder().decode(realPK);
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(b1);
-        KeyFactory kf = KeyFactory.getInstance("RSA");
+    // private String sign(String input) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+    //     String realPK = CLIENT_PRIVATE_KEY.replaceAll("-----END RSA PRIVATE KEY-----", "")
+    //             .replaceAll("-----BEGIN RSA PRIVATE KEY-----", "")
+    //             .replaceAll("\n", "");
+    //     byte[] b1 = Base64.getDecoder().decode(realPK);
+    //     PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(b1);
+    //     KeyFactory kf = KeyFactory.getInstance("RSA");
 
-        Signature privateSignature = Signature.getInstance("SHA256withRSA");
-        privateSignature.initSign(kf.generatePrivate(spec));
-        privateSignature.update(input.getBytes("UTF-8"));
-        byte[] s = privateSignature.sign();
-        return Base64.getEncoder().encodeToString(s);
+    //     Signature privateSignature = Signature.getInstance("SHA256withRSA");
+    //     privateSignature.initSign(kf.generatePrivate(spec));
+    //     privateSignature.update(input.getBytes("UTF-8"));
+    //     byte[] s = privateSignature.sign();
+    //     return Base64.getEncoder().encodeToString(s);
+    // }
+
+
+
+	public String sign(String input) {
+    String realPK = CLIENT_PRIVATE_KEY.replaceAll("-----END RSA PRIVATE KEY-----", "")
+        .replaceAll("-----BEGIN RSA PRIVATE KEY-----", "")
+        .replaceAll("\n", "");
+    byte[] b1 = Base64.getDecoder().decode(realPK);
+    PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(b1);
+    try {
+      KeyFactory kf = KeyFactory.getInstance("RSA");
+
+      Signature privateSignature = Signature.getInstance("SHA256withRSA");
+      privateSignature.initSign(kf.generatePrivate(spec));
+      privateSignature.update(input.getBytes("UTF-8"));
+      byte[] s = privateSignature.sign();
+      return Base64.getEncoder().encodeToString(s);
+    } catch (InvalidKeyException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (NoSuchAlgorithmException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (InvalidKeySpecException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (SignatureException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (UnsupportedEncodingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
-
+    return null;
+  }
     private byte[] digest() throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
         byte[] val = new byte[SHARED_SYMMETRIC_KEY.length() / 2];
         for (int i = 0; i < val.length; i++) {
