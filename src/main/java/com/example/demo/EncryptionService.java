@@ -6,6 +6,8 @@ import org.jose4j.keys.AesKey;
 import org.jose4j.lang.JoseException;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.JsonParser;
+
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -43,41 +45,21 @@ public class EncryptionService {
 	        + "Ev6QpSq6BEuJ3uml7xgFlw==".replaceAll("\n", ""); // Replace with your actual private key
     private static final String SHARED_SYMMETRIC_KEY = "a3730a502c3b5574f616ac3a61f221b1695006a4765b086902373df280de17c2";
     private static final String DATA_TO_ENCRYPT = "{\n"
-        + "    \"mid\": \"AGRLOG0000\",\n"
-        + "    \"channel\": \"api\",\n"
-        + "    \"account_number\": \"04762020001837\",\n"
-        + "    \"mobile_number\": \"914567899787\",\n"
-        + "    \"terminalId\": \"YOUTUBE456\",\n"
-        + "    \"name\": \"Shankar Hotel\",\n"
-        + "    \"bank_name\": \"Canara Bank\",\n"
-        + "    \"mcc\": \"6012\",\n"
-        + "    \"ifsc_code\": \"CNRB0000000\",\n"
-        + "    \"sid\": \"YOUTUBE975\",\n"
-        + "    \"additionalNo\": \"\",\n"
-        + "    \"checksum\": \"ytydtdgdggdg1200345\"\n"
-        + "}";
-      
-private static final String PAY_LOAD_PLAIN ="{\n"
-          + "    \"Request\": {\n"
-          + "        \"body\": {\n"
-          + "            \"encryptData\": {\n"
-          + "                \"mid\": \"AGRLOG0000\",\n"
-          + "                \"channel\": \"api\",\n"
-          + "                \"account_number\": \"04762020001837\",\n"
-          + "                \"mobile_number\": \"914567899787\",\n"
-          + "                \"terminalId\": \"YOUTUBE456\",\n"
-          + "                \"name\": \"Shankar Hotel\",\n"
-          + "                \"bank_name\": \"Canara Bank\",\n"
-          + "                \"mcc\": \"6012\",\n"
-          + "                \"ifsc_code\": \"CNRB0000000\",\n"
-          + "                \"sid\": \"YOUTUBE975\",\n"
-          + "                \"additionalNo\": \"\",\n"
-          + "                \"checksum\": \"ytydtdgdggdg1200345\"\n"
-          + "            }\n"
-          + "        }\n"
-          + "    }\n"
-          + "}";
-	
+            + "    \"source\": \"AGRLOG0000\",\n"
+            + "    \"channel\": \"api\",\n"
+            + "    \"terminalId\": \"YOUTUBE235\",\n"
+            + "    \"customerName\": \"WELCOME HOTEL\",\n"
+            + "    \"amount\": \"21.50\",\n"
+            + "    \"remark\": \"Merchant to Payment\",\n"
+            + "    \"requestTime\": \"2024-06-24 19:50:36\",\n"
+            + "    \"extTransactionId\": \"Test123456789127896321\",\n"
+            + "    \"upiId\": \"surya123@cnrb\",\n"
+            + "    \"param_1\": \"10\",\n"
+            + "    \"sid\": \"YOUTUBE934\",\n"
+            + "    \"payee_vpa\": \"agr.agrlog0000.youtube934.youtube235@cnrf\",\n"
+            + "    \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
+            + "}";
+
     public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
         return encrypt(DATA_TO_ENCRYPT);
     }
@@ -87,9 +69,29 @@ private static final String PAY_LOAD_PLAIN ="{\n"
     }
 
     public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-	com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
-        return sign(json.toSring);
+        com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
+        return sign(json.toString());
     }
+    private static final String PAY_LOAD_PLAIN ="{\n"
+            + "    \"Request\": {\n"
+            + "        \"body\": {\n"
+            + "            \"encryptData\": {\n"
+            + "                \"mid\": \"AGRLOG0000\",\n"
+            + "                \"channel\": \"api\",\n"
+            + "                \"account_number\": \"04762020001837\",\n"
+            + "                \"mobile_number\": \"914567899787\",\n"
+            + "                \"terminalId\": \"YOUTUBE456\",\n"
+            + "                \"name\": \"Shankar Hotel\",\n"
+            + "                \"bank_name\": \"Canara Bank\",\n"
+            + "                \"mcc\": \"6012\",\n"
+            + "                \"ifsc_code\": \"CNRB0000000\",\n"
+            + "                \"sid\": \"YOUTUBE975\",\n"
+            + "                \"additionalNo\": \"\",\n"
+            + "                \"checksum\": \"ytydtdgdggdg1200345\"\n"
+            + "            }\n"
+            + "        }\n"
+            + "    }\n"
+            + "}";
 
     public void demonstrateEncryptionAndDecryption() {
         try {
@@ -112,7 +114,7 @@ private static final String PAY_LOAD_PLAIN ="{\n"
         jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A256KW);
         jwe.setKey(new AesKey(digest()));
         jwe.setPayload(input);
-        return "Encrypted Data:  "+jwe.getCompactSerialization() ;
+        return "Encrypted Data:  "+jwe.getCompactSerialization()+ decrypt(jwe.getCompactSerialization()) ;
     }
 
     private String decrypt(String input) throws JoseException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
@@ -123,55 +125,21 @@ private static final String PAY_LOAD_PLAIN ="{\n"
         return "     Decrypted Data:  "+jwe.getPlaintextString();
     }
 
-    // private String sign(String input) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-    //     String realPK = CLIENT_PRIVATE_KEY.replaceAll("-----END RSA PRIVATE KEY-----", "")
-    //             .replaceAll("-----BEGIN RSA PRIVATE KEY-----", "")
-    //             .replaceAll("\n", "");
-    //     byte[] b1 = Base64.getDecoder().decode(realPK);
-    //     PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(b1);
-    //     KeyFactory kf = KeyFactory.getInstance("RSA");
+    private String sign(String input) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+        String realPK = CLIENT_PRIVATE_KEY.replaceAll("-----END RSA PRIVATE KEY-----", "")
+                .replaceAll("-----BEGIN RSA PRIVATE KEY-----", "")
+                .replaceAll("\n", "");
+        byte[] b1 = Base64.getDecoder().decode(realPK);
+        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(b1);
+        KeyFactory kf = KeyFactory.getInstance("RSA");
 
-    //     Signature privateSignature = Signature.getInstance("SHA256withRSA");
-    //     privateSignature.initSign(kf.generatePrivate(spec));
-    //     privateSignature.update(input.getBytes("UTF-8"));
-    //     byte[] s = privateSignature.sign();
-    //     return Base64.getEncoder().encodeToString(s);
-    // }
-
-
-
-	public String sign(String input) {
-    String realPK = CLIENT_PRIVATE_KEY.replaceAll("-----END RSA PRIVATE KEY-----", "")
-        .replaceAll("-----BEGIN RSA PRIVATE KEY-----", "")
-        .replaceAll("\n", "");
-    byte[] b1 = Base64.getDecoder().decode(realPK);
-    PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(b1);
-    try {
-      KeyFactory kf = KeyFactory.getInstance("RSA");
-
-      Signature privateSignature = Signature.getInstance("SHA256withRSA");
-      privateSignature.initSign(kf.generatePrivate(spec));
-      privateSignature.update(input.getBytes("UTF-8"));
-      byte[] s = privateSignature.sign();
-      return Base64.getEncoder().encodeToString(s);
-    } catch (InvalidKeyException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (NoSuchAlgorithmException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (InvalidKeySpecException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (SignatureException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (UnsupportedEncodingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+        Signature privateSignature = Signature.getInstance("SHA256withRSA");
+        privateSignature.initSign(kf.generatePrivate(spec));
+        privateSignature.update(input.getBytes("UTF-8"));
+        byte[] s = privateSignature.sign();
+        return Base64.getEncoder().encodeToString(s);
     }
-    return null;
-  }
+
     private byte[] digest() throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
         byte[] val = new byte[SHARED_SYMMETRIC_KEY.length() / 2];
         for (int i = 0; i < val.length; i++) {
