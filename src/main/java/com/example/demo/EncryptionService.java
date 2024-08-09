@@ -114,7 +114,7 @@ public class EncryptionService {
         jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A256KW);
         jwe.setKey(new AesKey(digest()));
         jwe.setPayload(input);
-        return "Encrypted Data:  "+jwe.getCompactSerialization()+ decrypt(jwe.getCompactSerialization()) ;
+        return "Encrypted Data:  "+jwe.getCompactSerialization() ;
     }
 
     private String decrypt(String input) throws JoseException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
