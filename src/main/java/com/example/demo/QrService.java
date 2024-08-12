@@ -16,7 +16,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
 @Service
-public class EncryptionService {
+public class QrService {
 
     private static final String CLIENT_PRIVATE_KEY ="MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCOYTIUTU4bxS7N"
 	        + "x7k9QE3NY6Z7xQhAykXNYmGk6LfO5fmUXuQ9s9CpefywLTRAgCBy/IJFZLgjVHD9"
