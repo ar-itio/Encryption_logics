@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 public class VpaEnqueryController {
 
     @Autowired
-    private EncryptionService encryptionService;
+    private VpaEnqueryService vpaEnqueryService;
 
     @GetMapping("/encrypt")
     public String encryptData() {
         try {
-            return encryptionService.encryptDataToEncrypt();
+            return vpaEnqueryService.encryptDataToEncrypt();
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while encrypting data";
@@ -23,7 +23,7 @@ public class VpaEnqueryController {
     @GetMapping("/decrypt")
     public String decryptData(@RequestParam String encryptedData) {
         try {
-            return encryptionService.decryptData(encryptedData);
+            return vpaEnqueryService.decryptData(encryptedData);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while decrypting data: " + e.getMessage();
@@ -33,7 +33,7 @@ public class VpaEnqueryController {
     @GetMapping("/sign")
     public String signData() {
         try {
-            return encryptionService.signData();
+            return vpaEnqueryService.signData();
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while signing data";
