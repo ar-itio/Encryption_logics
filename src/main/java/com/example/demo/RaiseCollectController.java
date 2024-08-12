@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 public class RaiseCollectController {
 
     @Autowired
-    private EncryptionService encryptionService;
+    private RaiseCollectService raiseCollectService;
 
     @GetMapping("/encrypt")
     public String encryptData() {
         try {
-            return encryptionService.encryptDataToEncrypt();
+            return raiseCollectService.encryptDataToEncrypt();
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while encrypting data";
@@ -23,7 +23,7 @@ public class RaiseCollectController {
     @GetMapping("/decrypt")
     public String decryptData(@RequestParam String encryptedData) {
         try {
-            return encryptionService.decryptData(encryptedData);
+            return raiseCollectService.decryptData(encryptedData);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while decrypting data: " + e.getMessage();
@@ -33,7 +33,7 @@ public class RaiseCollectController {
     @GetMapping("/sign")
     public String signData() {
         try {
-            return encryptionService.signData();
+            return raiseCollectService.signData();
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while signing data";
