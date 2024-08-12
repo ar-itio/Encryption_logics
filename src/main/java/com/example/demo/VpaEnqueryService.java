@@ -46,19 +46,14 @@ public class VpaEnqueryService {
     private static final String SHARED_SYMMETRIC_KEY = "a3730a502c3b5574f616ac3a61f221b1695006a4765b086902373df280de17c2";
 	
    private static final String DATA_TO_ENCRYPT = "{\n"
-        + "    \"mid\": \"AGRLOG0000\",\n"
-        + "    \"channel\": \"api\",\n"
-        + "    \"account_number\": \"04762020001837\",\n"
-        + "    \"mobile_number\": \"914567899787\",\n"
-        + "    \"terminalId\": \"YOUTUBE456\",\n"
-        + "    \"name\": \"Shankar Hotel\",\n"
-        + "    \"bank_name\": \"Canara Bank\",\n"
-        + "    \"mcc\": \"6012\",\n"
-        + "    \"ifsc_code\": \"CNRB0000000\",\n"
-        + "    \"sid\": \"YOUTUBE975\",\n"
-        + "    \"additionalNo\": \"\",\n"
-        + "    \"checksum\": \"ytydtdgdggdg1200345\"\n"
-        + "}";
+	        + "    \"channel\": \"api\",\n"
+	        + "    \"mid\": \"AGRLOG0000\",\n"
+	        + "    \"terminalId\": \"YOUTUBE456\",\n"
+	        + "    \"sid\": \"YOUTUBE975\",\n"
+	        + "    \"batch_id\": \"API197693580030524\",\n"
+	        + "    \"checksum\": \"adifaopdfiojkenwhdfiasdifsf==\"\n"
+	        + "}";
+
 
     public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
         return encrypt(DATA_TO_ENCRYPT);
@@ -72,26 +67,20 @@ public class VpaEnqueryService {
         com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
         return sign(json.toString());
     }
-    private static final String PAY_LOAD_PLAIN ="{\n"
-            + "    \"Request\": {\n"
-            + "        \"body\": {\n"
-            + "            \"encryptData\": {\n"
-            + "                \"mid\": \"AGRLOG0000\",\n"
-            + "                \"channel\": \"api\",\n"
-            + "                \"account_number\": \"04762020001837\",\n"
-            + "                \"mobile_number\": \"914567899787\",\n"
-            + "                \"terminalId\": \"YOUTUBE456\",\n"
-            + "                \"name\": \"Shankar Hotel\",\n"
-            + "                \"bank_name\": \"Canara Bank\",\n"
-            + "                \"mcc\": \"6012\",\n"
-            + "                \"ifsc_code\": \"CNRB0000000\",\n"
-            + "                \"sid\": \"YOUTUBE975\",\n"
-            + "                \"additionalNo\": \"\",\n"
-            + "                \"checksum\": \"ytydtdgdggdg1200345\"\n"
-            + "            }\n"
-            + "        }\n"
-            + "    }\n"
-            + "}";
+   private static final String PAY_LOAD_PLAIN ="{\n"
+		        + "    \"Request\": {\n"
+		        + "        \"body\": {\n"
+		        + "            \"encryptData\": {\n"
+		        + "                \"channel\": \"api\",\n"
+		        + "                \"mid\": \"AGRLOG0000\",\n"
+		        + "                \"terminalId\": \"YOUTUBE456\",\n"
+		        + "                \"sid\": \"YOUTUBE975\",\n"
+		        + "                \"batch_id\": \"API197693580030524\",\n"
+		        + "                \"checksum\": \"adifaopdfiojkenwhdfiasdifsf==\"\n"
+		        + "            }\n"
+		        + "        }\n"
+		        + "    }\n"
+		        + "}";
 
     public void demonstrateEncryptionAndDecryption() {
         try {
