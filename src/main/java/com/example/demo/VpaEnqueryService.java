@@ -56,16 +56,16 @@ public class VpaEnqueryService {
 
 
     public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
-        return encrypt(DATA_TO_ENCRYPT);
+        return encryptenq(DATA_TO_ENCRYPT);
     }
 
     public String decryptData(String encryptedInput) throws JoseException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
-        return decrypt(encryptedInput);
+        return decryptenq(encryptedInput);
     }
 
     public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
         com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
-        return sign(json.toString());
+        return signenq(json.toString());
     }
    private static final String PAY_LOAD_PLAIN ="{\n"
 		        + "    \"Request\": {\n"
@@ -97,7 +97,7 @@ public class VpaEnqueryService {
         }
     }
 
-    private String encrypt(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
+    private String encryptenq(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
         JsonWebEncryption jwe = new JsonWebEncryption();
         jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
         jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A256KW);
@@ -106,7 +106,7 @@ public class VpaEnqueryService {
         return "Encrypted Data:  "+jwe.getCompactSerialization() ;
     }
 
-    private String decrypt(String input) throws JoseException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
+    private String decryptenq(String input) throws JoseException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
         JsonWebEncryption jwe = new JsonWebEncryption();
         jwe.setCompactSerialization(input);
         AesKey aes = new AesKey(digest());
@@ -114,7 +114,7 @@ public class VpaEnqueryService {
         return "     Decrypted Data:  "+jwe.getPlaintextString();
     }
 
-    private String sign(String input) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+    private String signenq(String input) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
         String realPK = CLIENT_PRIVATE_KEY.replaceAll("-----END RSA PRIVATE KEY-----", "")
                 .replaceAll("-----BEGIN RSA PRIVATE KEY-----", "")
                 .replaceAll("\n", "");
