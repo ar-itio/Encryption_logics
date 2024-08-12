@@ -44,21 +44,21 @@ public class EncryptionService {
 	        + "oLaearrayzS6MbEifRecc1+twLxqrbqwXTmxmywSU0ouZpCczqHk0+6Sm4S9dTt7"
 	        + "Ev6QpSq6BEuJ3uml7xgFlw==".replaceAll("\n", ""); // Replace with your actual private key
     private static final String SHARED_SYMMETRIC_KEY = "a3730a502c3b5574f616ac3a61f221b1695006a4765b086902373df280de17c2";
-    private static final String DATA_TO_ENCRYPT = "{\n"
-            + "    \"source\": \"AGRLOG0000\",\n"
-            + "    \"channel\": \"api\",\n"
-            + "    \"terminalId\": \"YOUTUBE235\",\n"
-            + "    \"customerName\": \"WELCOME HOTEL\",\n"
-            + "    \"amount\": \"21.50\",\n"
-            + "    \"remark\": \"Merchant to Payment\",\n"
-            + "    \"requestTime\": \"2024-06-24 19:50:36\",\n"
-            + "    \"extTransactionId\": \"Test123456789127896321\",\n"
-            + "    \"upiId\": \"surya123@cnrb\",\n"
-            + "    \"param_1\": \"10\",\n"
-            + "    \"sid\": \"YOUTUBE934\",\n"
-            + "    \"payee_vpa\": \"agr.agrlog0000.youtube934.youtube235@cnrf\",\n"
-            + "    \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
-            + "}";
+	
+   private static final String DATA_TO_ENCRYPT = "{\n"
+        + "    \"mid\": \"AGRLOG0000\",\n"
+        + "    \"channel\": \"api\",\n"
+        + "    \"account_number\": \"04762020001837\",\n"
+        + "    \"mobile_number\": \"914567899787\",\n"
+        + "    \"terminalId\": \"YOUTUBE456\",\n"
+        + "    \"name\": \"Shankar Hotel\",\n"
+        + "    \"bank_name\": \"Canara Bank\",\n"
+        + "    \"mcc\": \"6012\",\n"
+        + "    \"ifsc_code\": \"CNRB0000000\",\n"
+        + "    \"sid\": \"YOUTUBE975\",\n"
+        + "    \"additionalNo\": \"\",\n"
+        + "    \"checksum\": \"ytydtdgdggdg1200345\"\n"
+        + "}";
 
     public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
         return encrypt(DATA_TO_ENCRYPT);
