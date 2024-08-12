@@ -65,7 +65,7 @@ public class VpaEnqueryService {
 
     public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
         com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
-        return signenq(json.toString());
+        return sign(json.toString());
     }
    private static final String PAY_LOAD_PLAIN ="{\n"
 		        + "    \"Request\": {\n"
