@@ -82,7 +82,7 @@ public class EncryptionService {
             + "                \"account_number\": \"120029938874\",\n"
             + "                \"mobile_number\": \"9256529287\",\n"
             + "                \"terminalId\": \"\",\n"
-            + "                \"name\": \"Shankar Hotel\",\n"
+            + "                \"name\": \"SK PRIVATE LIMITED\",\n"
             + "                \"bank_name\": \"Canara Bank\",\n"
             + "                \"mcc\": \"6012\",\n"
             + "                \"ifsc_code\": \"CNRB0003896\",\n"
