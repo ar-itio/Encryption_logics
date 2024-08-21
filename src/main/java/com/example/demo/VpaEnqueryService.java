@@ -44,7 +44,7 @@ public class VpaEnqueryService {
 + "RPALFcnhpJZf0Z1uQiS3IiGWwLqlKtPhm0SJlewNoU79xmBnKLfMeDp5UaVTknyl"
 + "y61f0VpK+uM8GMWdyBrZTUeFkIgYuUPccud8OQWaMsLW3MnaP1yXMsL3mFzEGyyz"
 + "yDzwCa9hU5+WLF6s5KHYnQ==".replaceAll("\n", ""); 
-    private static final String SHARED_SYMMETRIC_KEY = "a3730a502c3b5574f616ac3a61f221b1695006a4765b086902373df280de17c2";
+    private static final String SHARED_SYMMETRIC_KEY = "0d113e69b524db3a4fd7584affa7465c262cc03d89fe09ac75d1445141481f2b";
 	
    private static final String DATA_TO_ENCRYPT = "{\n"
 	        + "    \"channel\": \"api\",\n"
