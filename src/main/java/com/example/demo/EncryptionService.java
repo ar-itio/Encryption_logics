@@ -17,8 +17,7 @@ import java.util.Base64;
 @Service
 public class EncryptionService {
 
-  public static final String CLIENT_PRIVATE_KEY = 
-"MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC51ZNctdJWFf5M"
+  public static final String CLIENT_PRIVATE_KEY = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC51ZNctdJWFf5M"
 + "sqxNvQOUc5LWkQ4hIx5K6+xUhRUNWAlC1laQ3fdxfFI6q9642yLD9eYaTBmpreyb"
 + "9yjQ1fIPYKtnLeNNWbTVTm3qamb/EFlXuV738bux1I5H+rlDnA990E1zeCLb3i3d"
 + "hrysJlE+O+muT/wA8dwDhmhZ8YHRSPzudHu/nWKrwxkZDkhV10lLyW8uApvn5WhI"
