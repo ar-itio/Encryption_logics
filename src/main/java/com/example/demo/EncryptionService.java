@@ -56,7 +56,7 @@ public class EncryptionService {
         + "    \"bank_name\": \"Canara Bank\",\n"
         + "    \"mcc\": \"6012\",\n"
         + "    \"ifsc_code\": \"CNRB0003896\",\n"
-        + "    \"sid\": \"LETSPE0012",\n"
+        + "    \"sid\": \"LETSPE0012\",\n"
         + "    \"additionalNo\": \"\",\n"
         + "    \"checksum\": \"ytydtdgdggdg1200345\"\n"
         + "}";
