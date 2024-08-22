@@ -51,7 +51,7 @@ public class VpaEnqueryService {
 	        + "    \"mid\": \"SKYWALK001\",\n"
 	        + "    \"terminalId\": \"\",\n"
 	        + "    \"sid\": \"LETSPE0012\",\n"
-	        + "    \"batch_id\": \"172430953884901213\",\n"
+	        + "    \"batch_id\": \"172431114081918236\",\n"
 	        + "    \"checksum\": \"adifaopdfiojkenwhdfiasdifsf==\"\n"
 	        + "}";
 
@@ -76,7 +76,7 @@ public class VpaEnqueryService {
 		        + "                \"mid\": \"SKYWALK001\",\n"
 		        + "                \"terminalId\": \"\",\n"
 		        + "                \"sid\": \"LETSPE0012\",\n"
-		        + "                \"batch_id\": \"172430953884901213\",\n"
+		        + "                \"batch_id\": \"172431114081918236\",\n"
 		        + "                \"checksum\": \"adifaopdfiojkenwhdfiasdifsf==\"\n"
 		        + "            }\n"
 		        + "        }\n"
