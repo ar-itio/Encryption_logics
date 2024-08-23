@@ -14,6 +14,7 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
+import java.util.Map;
 
 @Service
 public class QrService {
@@ -47,64 +48,67 @@ public class QrService {
 	
     private static final String SHARED_SYMMETRIC_KEY = "0d113e69b524db3a4fd7584affa7465c262cc03d89fe09ac75d1445141481f2b";
 	
-   private static final String DATA_TO_ENCRYPT = "{\n"
-			    + "    \"amount\": \"2.00\",\n"
-			    + "    \"extTransactionId\": \"NPSTPAY225516776987\",\n"
+   
+
+    public String encryptDataToEncrypt(Map<String, String> allParams) throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
+    	
+    		var GET_DATA_TO_ENCRYPT = "{\n"
+			    + "    \"amount\": \""+allParams.get("amount")+"\",\n"
+			    + "    \"extTransactionId\": \""+allParams.get("transID")+"\",\n"
 			    + "    \"channel\": \"api\",\n"
-			    + "    \"remark\": \"QR SIT testing\",\n"
-			    + "    \"source\": \"SKYWALK001\",\n"
+			    + "    \"remark\": \""+allParams.get("dba")+"\",\n"
+			    + "    \"source\": \""+allParams.get("mid")+"\",\n"
 			    + "    \"terminalId\": \"\",\n"
 			    + "    \"type\": \"D\",\n"
 			    + "    \"param3\": \"param3\",\n"
 			    + "    \"Param2\": \"Param2\",\n"
 			    + "    \"param1\": \"param1\",\n"
-			    + "    \"sid\": \"LETSPE0014\",\n"
-			    + "    \"upiId\": \"skp.skywalk001.letspe0014@cnrb\",\n"
-			    + "    \"requestTime\": \"2024-08-22 20:34:00\",\n"
+			    + "    \"sid\": \""+allParams.get("sid")+"\",\n"
+			    + "    \"upiId\": \""+allParams.get("upiId")+"\",\n"
+			    + "    \"requestTime\": \""+allParams.get("requestTime")+"\",\n"
 			    + "    \"reciept\": \"https://google.com\",\n"
 			    +"     \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
 			    + "}";
-
-    public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
-        return encrypt(DATA_TO_ENCRYPT);
+	    	return encrypt(GET_DATA_TO_ENCRYPT);
     }
 
     public String decryptData(String encryptedInput) throws JoseException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
         return decrypt(encryptedInput);
     }
 
-    public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-        com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
-        return sign(json.toString());
-    }
-    private static final String PAY_LOAD_PLAIN ="{\n"
+    public String signData(Map<String, String> allParams) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+    		var GET_PAY_LOAD_PLAIN ="{\n"
 				    + "    \"Request\": {\n"
 				    + "        \"body\": {\n"
 				    + "            \"encryptData\": {\n"
-				    + "                \"amount\": \"2.00\",\n"
-				    + "                \"extTransactionId\": \"NPSTPAY225516776987\",\n"
+				    + "                \"amount\": \""+allParams.get("amount")+"\",\n"
+				    + "                \"extTransactionId\": \""+allParams.get("transID")+"\",\n"
 				    + "                \"channel\": \"api\",\n"
-				    + "                \"remark\": \"QR SIT testing\",\n"
-				    + "                \"source\": \"SKYWALK001\",\n"
+				    + "                \"remark\": \""+allParams.get("dba")+"\",\n"
+				    + "                \"source\": \""+allParams.get("mid")+"\",\n"
 				    + "                \"terminalId\": \"\",\n"
 				    + "                \"type\": \"D\",\n"
 				    + "                \"param3\": \"param3\",\n"
 				    + "                \"Param2\": \"Param2\",\n"
 				    + "                \"param1\": \"param1\",\n"
-				    + "                \"sid\": \"LETSPE0014\",\n"
-				    + "                \"upiId\": \"skp.skywalk001.letspe0014@cnrb\",\n"
-				    + "                \"requestTime\": \"2024-08-22 20:34:00\",\n"
+				    + "                \"sid\": \""+allParams.get("sid")+"\",\n"
+				    + "                \"upiId\": \""+allParams.get("upiId")+"\",\n"
+				    + "                \"requestTime\": \""+allParams.get("requestTime")+"\",\n"
 				    + "                \"reciept\": \"https://google.com\",\n"
 				    + "                \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
 				    + "            }\n"
 				    + "        }\n"
 				    + "    }\n"
 				    + "}";
+        com.google.gson.JsonObject json = JsonParser.parseString(GET_PAY_LOAD_PLAIN).getAsJsonObject();
+        return sign(json.toString());
+    }
+    
 
     public void demonstrateEncryptionAndDecryption() {
         try {
             // Encrypt the data
-            String encryptedData = encryptDataToEncrypt();
+            String encryptedData = encryptDataToEncrypt(null);
             System.out.println("Encrypted Data: " + encryptedData);
 
             // Decrypt the data
@@ -158,4 +162,3 @@ public class QrService {
         return val;
     }
 }
-
