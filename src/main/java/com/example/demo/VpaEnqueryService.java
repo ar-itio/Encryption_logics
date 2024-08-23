@@ -50,8 +50,8 @@ public class VpaEnqueryService {
 	        + "    \"channel\": \"api\",\n"
 	        + "    \"mid\": \"SKYWALK001\",\n"
 	        + "    \"terminalId\": \"\",\n"
-	        + "    \"sid\": \"LETSPE0019\",\n"
-	        + "    \"batch_id\": \"172441090511069158\",\n"
+	        + "    \"sid\": \"LETSPE0020\",\n"
+	        + "    \"batch_id\": \"172441160422468235\",\n"
 	        + "    \"checksum\": \"adifaopdfiojkenwhdfiasdifsf==\"\n"
 	        + "}";
 
@@ -75,8 +75,8 @@ public class VpaEnqueryService {
 		        + "                \"channel\": \"api\",\n"
 		        + "                \"mid\": \"SKYWALK001\",\n"
 		        + "                \"terminalId\": \"\",\n"
-		        + "                \"sid\": \"LETSPE0019\",\n"
-		        + "                \"batch_id\": \"172441090511069158\",\n"
+		        + "                \"sid\": \"LETSPE0020\",\n"
+		        + "                \"batch_id\": \"172441160422468235\",\n"
 		        + "                \"checksum\": \"adifaopdfiojkenwhdfiasdifsf==\"\n"
 		        + "            }\n"
 		        + "        }\n"
