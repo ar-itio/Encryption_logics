@@ -47,21 +47,15 @@ public class EncryptionService {
 	
     private static final String SHARED_SYMMETRIC_KEY = "0d113e69b524db3a4fd7584affa7465c262cc03d89fe09ac75d1445141481f2b";
 	
-   private static final String DATA_TO_ENCRYPT = "{\n"
-        + "    \"mid\": \"SKYWALK001\",\n"
-        + "    \"channel\": \"api\",\n"
-        + "    \"account_number\": \"120029938874\",\n"
-        + "    \"mobile_number\": \"8527723931\",\n"
-        + "    \"terminalId\": \"\",\n"
-        + "    \"name\": \"SK PRIVATE LIMITED\",\n"
-        + "    \"bank_name\": \"Canara Bank\",\n"
-        + "    \"mcc\": \"6012\",\n"
-        + "    \"ifsc_code\": \"CNRB0003896\",\n"
-        + "    \"sid\": \"LETSPE0020\",\n"
-        + "    \"additionalNo\": \"\",\n"
-        + "    \"checksum\": \"ytydtdgdggdg1200345\"\n"
-        + "}";
-
+  private static final String DATA_TO_ENCRYPT = "{\n" +
+	        "    \"mid\": \"YOUTUBE001\",\n" +
+	        "    \"channel\": \"api\",\n" +
+	        "    \"sid\": \"YOUTUBE937\",\n" +
+	        "    \"terminalId\": \"YOUTUBE239\",\n" +
+	        "    \"rrn\": \"417715880936\",\n" +
+	        "    \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n" +
+	        "}";
+	
     public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
         return encrypt(DATA_TO_ENCRYPT);
     }
@@ -75,26 +69,20 @@ public class EncryptionService {
         return sign(json.toString());
     }
     private static final String PAY_LOAD_PLAIN ="{\n"
-            + "    \"Request\": {\n"
-            + "        \"body\": {\n"
-            + "            \"encryptData\": {\n"
-            + "                \"mid\": \"SKYWALK001\",\n"
-            + "                \"channel\": \"api\",\n"
-            + "                \"account_number\": \"120029938874\",\n"
-            + "                \"mobile_number\": \"8527723931\",\n"
-            + "                \"terminalId\": \"\",\n"
-            + "                \"name\": \"SK PRIVATE LIMITED\",\n"
-            + "                \"bank_name\": \"Canara Bank\",\n"
-            + "                \"mcc\": \"6012\",\n"
-            + "                \"ifsc_code\": \"CNRB0003896\",\n"
-            + "                \"sid\": \"LETSPE0020\",\n"
-            + "                \"additionalNo\": \"\",\n"
-            + "                \"checksum\": \"ytydtdgdggdg1200345\"\n"
-            + "            }\n"
-            + "        }\n"
-            + "    }\n"
-            + "}";
-
+				    + "    \"Request\": {\n"
+				    + "        \"body\": {\n"
+				    + "            \"encryptData\": {\n"
+				    + "                \"mid\": \"YOUTUBE001\",\n"
+				    + "                \"channel\": \"api\",\n"
+				    + "                \"sid\": \"YOUTUBE937\",\n"
+				    + "                \"terminalId\": \"YOUTUBE239\",\n"
+				    + "                \"rrn\": \"417715880936\",\n"
+				    + "                \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
+				    + "            }\n"
+				    + "        }\n"
+				    + "    }\n"
+				    + "}";
+	
     public void demonstrateEncryptionAndDecryption() {
         try {
             // Encrypt the data
