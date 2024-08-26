@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +13,9 @@ public class VpaEnqueryController {
     private VpaEnqueryService vpaEnqueryService;
 
     @GetMapping("/encrypt")
-    public String encryptData() {
+    public String encryptData(@RequestParam Map<String, String> allParams) {
         try {
-            return vpaEnqueryService.encryptDataToEncrypt();
+            return vpaEnqueryService.encryptDataToEncrypt(allParams);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while encrypting data";
@@ -31,13 +33,12 @@ public class VpaEnqueryController {
     }
 
     @GetMapping("/sign")
-    public String signData() {
+    public String signData(@RequestParam Map<String, String> allParams) {
         try {
-            return vpaEnqueryService.signData();
+            return vpaEnqueryService.signData(allParams);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while signing data";
         }
     }
 }
-
