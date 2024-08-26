@@ -56,14 +56,14 @@ public class StatusService {
 		String sid = allParams.getOrDefault("sid", "LETSPE0014");
 		String terminalId = allParams.getOrDefault("terminalId", "YOUTUBE239");
 		
-		String rrn = allParams.get("rrn");
+		String extTransactionId = allParams.get("extTransactionId");
 		
 		String GET_DATA_TO_ENCRYPT = "{\n" 
 	    				+ "    \"mid\": \"" + mid + "\",\n"
 				    + "    \"channel\": \"api\",\n"
 				    + "    \"sid\": \"" + sid + "\",\n"
 				    + "    \"terminalId\": \"" + terminalId + "\",\n"
-				    + "    \"rrn\": \"" + rrn + "\",\n"
+				    + "    \"extTransactionId\": \"" + extTransactionId + "\",\n"
 	    	        		+ "    \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n" 
 	    	        		+ "}";
 	    	
@@ -80,7 +80,7 @@ public class StatusService {
 		String sid = allParams.getOrDefault("sid", "LETSPE0014");
 		String terminalId = allParams.getOrDefault("terminalId", "YOUTUBE239");
 		
-		String rrn = allParams.get("rrn");
+		String extTransactionId = allParams.get("extTransactionId");
 		//rrn = "417715880936";
 	
 	
@@ -92,7 +92,7 @@ public class StatusService {
 		    + "                \"channel\": \"api\",\n"
 		    + "                \"sid\": \"" + sid + "\",\n"
 		    + "                \"terminalId\": \"" + terminalId + "\",\n"
-		    + "                \"rrn\": \"" + rrn + "\",\n"
+		    + "                \"extTransactionId\": \"" + extTransactionId + "\",\n"
 		    + "                \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
 		    + "            }\n"
 		    + "        }\n"
