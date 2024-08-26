@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +13,9 @@ public class RaiseCollectController {
     private RaiseCollectService raiseCollectService;
 
     @GetMapping("/encrypt")
-    public String encryptData() {
+    public String encryptData(@RequestParam Map<String, String> allParams) {
         try {
-            return raiseCollectService.encryptDataToEncrypt();
+            return raiseCollectService.encryptDataToEncrypt(allParams);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while encrypting data";
@@ -31,9 +33,9 @@ public class RaiseCollectController {
     }
 
     @GetMapping("/sign")
-    public String signData() {
+    public String signData(@RequestParam Map<String, String> allParams) {
         try {
-            return raiseCollectService.signData();
+            return raiseCollectService.signData(allParams);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while signing data";
