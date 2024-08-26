@@ -13,9 +13,10 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
+import java.util.Map;
 
 @Service
-public class EncryptionService {
+public class StatusService {
 
   public static final String CLIENT_PRIVATE_KEY = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCssBZioSFrRMVx"
         + "+S82i3vU4AnhVVq7UpSLdyxavt5NLmvtNK7wLQ7CCyIoTTLGkuSed39glelKe1JR"
@@ -47,46 +48,66 @@ public class EncryptionService {
 	
     private static final String SHARED_SYMMETRIC_KEY = "0d113e69b524db3a4fd7584affa7465c262cc03d89fe09ac75d1445141481f2b";
 	
-  private static final String DATA_TO_ENCRYPT = "{\n" +
-	        "    \"mid\": \"YOUTUBE001\",\n" +
-	        "    \"channel\": \"api\",\n" +
-	        "    \"sid\": \"YOUTUBE937\",\n" +
-	        "    \"terminalId\": \"YOUTUBE239\",\n" +
-	        "    \"rrn\": \"417715880936\",\n" +
-	        "    \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n" +
-	        "}";
+ 
 	
-    public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
-        return encrypt(DATA_TO_ENCRYPT);
+    public String encryptDataToEncrypt(Map<String, String> allParams) throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
+    		
+    		String mid = allParams.getOrDefault("mid", "SKYWALK001");
+		String sid = allParams.getOrDefault("sid", "LETSPE0014");
+		String terminalId = allParams.getOrDefault("terminalId", "YOUTUBE239");
+		
+		String rrn = allParams.get("rrn");
+		
+		String GET_DATA_TO_ENCRYPT = "{\n" 
+	    				+ "    \"mid\": \"" + mid + "\",\n"
+				    + "    \"channel\": \"api\",\n"
+				    + "    \"sid\": \"" + sid + "\",\n"
+				    + "    \"terminalId\": \"" + terminalId + "\",\n"
+				    + "    \"rrn\": \"" + rrn + "\",\n"
+	    	        		+ "    \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n" 
+	    	        		+ "}";
+	    	
+        return encrypt(GET_DATA_TO_ENCRYPT);
     }
 
     public String decryptData(String encryptedInput) throws JoseException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
         return decrypt(encryptedInput);
     }
 
-    public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-        com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
+    public String signData(Map<String, String> allParams) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+    		
+	    	String mid = allParams.getOrDefault("mid", "SKYWALK001");
+		String sid = allParams.getOrDefault("sid", "LETSPE0014");
+		String terminalId = allParams.getOrDefault("terminalId", "YOUTUBE239");
+		
+		String rrn = allParams.get("rrn");
+		//rrn = "417715880936";
+	
+	
+		String GET_PAY_LOAD_PLAIN ="{\n"
+		    + "    \"Request\": {\n"
+		    + "        \"body\": {\n"
+		    + "            \"encryptData\": {\n"
+		    + "                \"mid\": \"" + mid + "\",\n"
+		    + "                \"channel\": \"api\",\n"
+		    + "                \"sid\": \"" + sid + "\",\n"
+		    + "                \"terminalId\": \"" + terminalId + "\",\n"
+		    + "                \"rrn\": \"" + rrn + "\",\n"
+		    + "                \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
+		    + "            }\n"
+		    + "        }\n"
+		    + "    }\n"
+		    + "}";
+    		
+        com.google.gson.JsonObject json = JsonParser.parseString(GET_PAY_LOAD_PLAIN).getAsJsonObject();
         return sign(json.toString());
     }
-    private static final String PAY_LOAD_PLAIN ="{\n"
-				    + "    \"Request\": {\n"
-				    + "        \"body\": {\n"
-				    + "            \"encryptData\": {\n"
-				    + "                \"mid\": \"YOUTUBE001\",\n"
-				    + "                \"channel\": \"api\",\n"
-				    + "                \"sid\": \"YOUTUBE937\",\n"
-				    + "                \"terminalId\": \"YOUTUBE239\",\n"
-				    + "                \"rrn\": \"417715880936\",\n"
-				    + "                \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
-				    + "            }\n"
-				    + "        }\n"
-				    + "    }\n"
-				    + "}";
+    
 	
     public void demonstrateEncryptionAndDecryption() {
         try {
             // Encrypt the data
-            String encryptedData = encryptDataToEncrypt();
+            String encryptedData = encryptDataToEncrypt(null);
             System.out.println("Encrypted Data: " + encryptedData);
 
             // Decrypt the data
