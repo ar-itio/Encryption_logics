@@ -1,4 +1,3 @@
-
 package com.example.demo;
 
 import java.util.Map;
@@ -51,7 +50,22 @@ public class QrController {
         }
     }
     
-    
+    private String convertToJsonFormat(String jsonInput) {
+        // Assume the input is in the format: jsonInput=key1=value1&key2=value2...
+        StringBuilder jsonBuilder = new StringBuilder("{");
+        String[] pairs = jsonInput.split("&");
+
+        for (int i = 0; i < pairs.length; i++) {
+            String[] keyValue = pairs[i].split("=");
+            jsonBuilder.append("\"").append(keyValue[0]).append("\":\"").append(keyValue[1]).append("\"");
+            if (i < pairs.length - 1) {
+                jsonBuilder.append(",");
+            }
+        }
+
+        jsonBuilder.append("}");
+        return jsonBuilder.toString();
+    }
     
     private String buildJsonInput(Map<String, String> params) {
         // Construct your JSON input here from the params
