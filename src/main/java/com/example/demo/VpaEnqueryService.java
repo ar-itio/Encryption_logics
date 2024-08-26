@@ -13,6 +13,7 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
+import java.util.Map;
 
 @Service
 public class VpaEnqueryService {
@@ -46,47 +47,61 @@ public class VpaEnqueryService {
 	
     private static final String SHARED_SYMMETRIC_KEY = "0d113e69b524db3a4fd7584affa7465c262cc03d89fe09ac75d1445141481f2b";
 	
-   private static final String DATA_TO_ENCRYPT = "{\n"
-	        + "    \"channel\": \"api\",\n"
-	        + "    \"mid\": \"SKYWALK001\",\n"
-	        + "    \"terminalId\": \"\",\n"
-	        + "    \"sid\": \"LETSPE0020\",\n"
-	        + "    \"batch_id\": \"172441160422468235\",\n"
-	        + "    \"checksum\": \"adifaopdfiojkenwhdfiasdifsf==\"\n"
-	        + "}";
 
-
-    public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
-        return encrypt(DATA_TO_ENCRYPT);
+    public String encryptDataToEncrypt(Map<String, String> allParams) throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
+    		
+    		String mid = allParams.getOrDefault("mid", "SKYWALK001");
+        String sid = allParams.getOrDefault("sid", "LETSPE0014");
+        String batch_id = allParams.get("batch_id");
+        
+    		String GET_DATA_TO_ENCRYPT = "{\n"
+    	        + "    \"channel\": \"api\",\n"
+    	        + "    \"mid\": \"" + mid + "\",\n"
+    	        + "    \"terminalId\": \"\",\n"
+    	        + "    \"sid\": \"" + sid + "\",\n"
+    	        + "    \"batch_id\": \"" + batch_id + "\",\n"
+    	        + "    \"checksum\": \"adifaopdfiojkenwhdfiasdifsf==\"\n"
+    	        + "}";
+    	
+        return encrypt(GET_DATA_TO_ENCRYPT);
     }
 
     public String decryptData(String encryptedInput) throws JoseException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
         return decrypt(encryptedInput);
     }
 
-    public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-        com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
+    public String signData(Map<String, String> allParams) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+    		
+    		String mid = allParams.getOrDefault("mid", "SKYWALK001");
+        String sid = allParams.getOrDefault("sid", "LETSPE0014");
+        String batch_id = allParams.get("batch_id");
+
+        // Construct the JSON plod dynamically
+        String GET_PAY_LOAD_PLAIN = "{\n"
+            + "    \"Request\": {\n"
+            + "        \"body\": {\n"
+            + "            \"encryptData\": {\n"
+            + "                \"channel\": \"api\",\n"
+            + "                \"mid\": \"" + mid + "\",\n"
+            + "                \"terminalId\": \"\",\n"
+            + "                \"sid\": \"" + sid + "\",\n"
+            + "                \"batch_id\": \"" + batch_id + "\",\n"
+            + "                \"checksum\": \"adifaopdfiojkenwhdfiasdifsf==\"\n"
+            + "            }\n"
+            + "        }\n"
+            + "    }\n"
+            + "}";
+    	
+        com.google.gson.JsonObject json = JsonParser.parseString(GET_PAY_LOAD_PLAIN).getAsJsonObject();
         return sign(json.toString());
     }
-   private static final String PAY_LOAD_PLAIN ="{\n"
-		        + "    \"Request\": {\n"
-		        + "        \"body\": {\n"
-		        + "            \"encryptData\": {\n"
-		        + "                \"channel\": \"api\",\n"
-		        + "                \"mid\": \"SKYWALK001\",\n"
-		        + "                \"terminalId\": \"\",\n"
-		        + "                \"sid\": \"LETSPE0020\",\n"
-		        + "                \"batch_id\": \"172441160422468235\",\n"
-		        + "                \"checksum\": \"adifaopdfiojkenwhdfiasdifsf==\"\n"
-		        + "            }\n"
-		        + "        }\n"
-		        + "    }\n"
-		        + "}";
+   
+
 
     public void demonstrateEncryptionAndDecryption() {
         try {
             // Encrypt the data
-            String encryptedData = encryptDataToEncrypt();
+            String encryptedData = encryptDataToEncrypt(null);
             System.out.println("Encrypted Data: " + encryptedData);
 
             // Decrypt the data
@@ -140,4 +155,3 @@ public class VpaEnqueryService {
         return val;
     }
 }
-
