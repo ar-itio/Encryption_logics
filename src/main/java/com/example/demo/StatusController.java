@@ -1,19 +1,21 @@
 package com.example.demo;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/Status")
-public class EncryptionController {
+public class StatusController {
 
     @Autowired
-    private EncryptionService encryptionService;
+    private StatusService statusService;
 
     @GetMapping("/encrypt")
-    public String encryptData() {
+    public String encryptData(@RequestParam Map<String, String> allParams) {
         try {
-            return encryptionService.encryptDataToEncrypt();
+            return statusService.encryptDataToEncrypt(allParams);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while encrypting data";
@@ -23,7 +25,7 @@ public class EncryptionController {
     @GetMapping("/decrypt")
     public String decryptData(@RequestParam String encryptedData) {
         try {
-            return encryptionService.decryptData(encryptedData);
+            return statusService.decryptData(encryptedData);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while decrypting data: " + e.getMessage();
@@ -31,9 +33,9 @@ public class EncryptionController {
     }
 
     @GetMapping("/sign")
-    public String signData() {
+    public String signData(@RequestParam Map<String, String> allParams) {
         try {
-            return encryptionService.signData();
+            return statusService.signData(allParams);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error occurred while signing data";
