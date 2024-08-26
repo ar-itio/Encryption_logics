@@ -1,4 +1,3 @@
-
 package com.example.demo;
 
 import org.apache.commons.codec.DecoderException;
@@ -52,7 +51,7 @@ public class QrService {
 
     public String encryptDataToEncrypt(Map<String, String> allParams) throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
     	
-    		var GET_DATA_TO_ENCRYPT = "{\n"
+    		String GET_DATA_TO_ENCRYPT = "{\n"
 			    + "    \"amount\": \""+allParams.get("amount")+"\",\n"
 			    + "    \"extTransactionId\": \""+allParams.get("transID")+"\",\n"
 			    + "    \"channel\": \"api\",\n"
@@ -77,23 +76,23 @@ public class QrService {
     }
 
     public String signData(Map<String, String> allParams) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-    		var GET_PAY_LOAD_PLAIN ="{\n"
+    		String GET_PAY_LOAD_PLAIN ="{\n"
 				    + "    \"Request\": {\n"
 				    + "        \"body\": {\n"
 				    + "            \"encryptData\": {\n"
-				    + "                \"amount\": \""+allParams.get("amount")+"\",\n"
-				    + "                \"extTransactionId\": \""+allParams.get("transID")+"\",\n"
+				    + "                \"amount\": \"" + allParams.get("amount") + "\",\n"
+				    + "                \"extTransactionId\": \"" + allParams.get("transID") + "\",\n"
 				    + "                \"channel\": \"api\",\n"
-				    + "                \"remark\": \""+allParams.get("dba")+"\",\n"
-				    + "                \"source\": \""+allParams.get("mid")+"\",\n"
+				    + "                \"remark\": \"" + allParams.get("dba") + "\",\n"
+				    + "                \"source\": \"" + allParams.get("mid") + "\",\n"
 				    + "                \"terminalId\": \"\",\n"
 				    + "                \"type\": \"D\",\n"
 				    + "                \"param3\": \"param3\",\n"
 				    + "                \"Param2\": \"Param2\",\n"
 				    + "                \"param1\": \"param1\",\n"
-				    + "                \"sid\": \""+allParams.get("sid")+"\",\n"
-				    + "                \"upiId\": \""+allParams.get("upiId")+"\",\n"
-				    + "                \"requestTime\": \""+allParams.get("requestTime")+"\",\n"
+				    + "                \"sid\": \"" + allParams.get("sid") + "\",\n"
+				    + "                \"upiId\": \"" + allParams.get("upiId") + "\",\n"
+				    + "                \"requestTime\": \"" + allParams.get("requestTime") + "\",\n"
 				    + "                \"reciept\": \"https://google.com\",\n"
 				    + "                \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
 				    + "            }\n"
