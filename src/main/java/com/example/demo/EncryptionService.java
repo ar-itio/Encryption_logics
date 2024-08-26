@@ -13,6 +13,7 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
+import java.util.Map;
 
 @Service
 public class EncryptionService {
@@ -46,23 +47,41 @@ public class EncryptionService {
 
 	
     private static final String SHARED_SYMMETRIC_KEY = "0d113e69b524db3a4fd7584affa7465c262cc03d89fe09ac75d1445141481f2b";
-	
-   private static final String DATA_TO_ENCRYPT = "{\n"
-        + "    \"mid\": \"SKYWALK001\",\n"
-        + "    \"channel\": \"api\",\n"
-        + "    \"account_number\": \"120029938874\",\n"
-        + "    \"mobile_number\": \"8527723931\",\n"
-        + "    \"terminalId\": \"\",\n"
-        + "    \"name\": \"SK PRIVATE LIMITED\",\n"
-        + "    \"bank_name\": \"Canara Bank\",\n"
-        + "    \"mcc\": \"6012\",\n"
-        + "    \"ifsc_code\": \"CNRB0003896\",\n"
-        + "    \"sid\": \"LETSPE0020\",\n"
-        + "    \"additionalNo\": \"\",\n"
-        + "    \"checksum\": \"ytydtdgdggdg1200345\"\n"
-        + "}";
+	//you need to change hereok run again this url 
+    
+    //plaese give me access
+    
+  
 
-    public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
+    public String encryptDataToEncrypt(Map<String, String> allParams) throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
+    	
+    		String mid = allParams.getOrDefault("mid", "SKYWALK001");
+		String account_number = allParams.getOrDefault("account_number", "120029938874");
+		String bank_name = allParams.getOrDefault("bank_name", "Canara Bank");
+		String mcc = allParams.getOrDefault("mcc", "CNRB0003896");
+		String ifsc_code = allParams.getOrDefault("ifsc_code", "CNRB0003896");
+		String sid = allParams.getOrDefault("sid", "LETSPE0014");
+		String mobile_number = allParams.get("mobile_number");
+			//mobile_number = "9568315028";
+		
+		String company_name = allParams.get("company_name");
+		//company_name = "SK PRIVATE LIMITED";
+		
+    	  	//now you can change port again 
+    	  	String DATA_TO_ENCRYPT = "{\n"
+  			+ "    \"mid\": \"" + mid + "\",\n"
+            + "    \"channel\": \"api\",\n"
+            + "    \"account_number\": \"" + account_number + "\",\n"
+            + "    \"mobile_number\": \"" + mobile_number + "\",\n"
+            + "    \"terminalId\": \"\",\n"
+            + "    \"name\": \"" + company_name + "\",\n"
+            + "    \"bank_name\": \"" + bank_name + "\",\n"
+            + "    \"mcc\": \"" + mcc + "\",\n"
+            + "    \"ifsc_code\": \"" + ifsc_code + "\",\n"
+            + "    \"sid\": \"" + sid + "\",\n"
+            + "    \"additionalNo\": \"\",\n"
+            + "    \"checksum\": \"ytydtdgdggdg1200345\"\n"
+    	        + "}";
         return encrypt(DATA_TO_ENCRYPT);
     }
 
@@ -70,35 +89,53 @@ public class EncryptionService {
         return decrypt(encryptedInput);
     }
 
-    public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-        com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
+    public String signData(Map<String, String> allParams) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+    	
+
+		String mid = allParams.getOrDefault("mid", "SKYWALK001");
+		String account_number = allParams.getOrDefault("account_number", "120029938874");
+		String bank_name = allParams.getOrDefault("bank_name", "Canara Bank");
+		String mcc = allParams.getOrDefault("mcc", "CNRB0003896");
+		String ifsc_code = allParams.getOrDefault("ifsc_code", "CNRB0003896");
+		String sid = allParams.getOrDefault("sid", "LETSPE0014");
+		String mobile_number = allParams.get("mobile_number");
+			//mobile_number = "9568315028";
+		
+		String company_name = allParams.get("company_name");
+		//company_name = "SK PRIVATE LIMITED";
+    
+		String GET_PAY_LOAD_PLAIN ="{\n"
+	            + "    \"Request\": {\n"
+	            + "        \"body\": {\n"
+	            + "            \"encryptData\": {\n"
+	            + "                \"mid\": \"" + mid + "\",\n"
+	            + "                \"channel\": \"api\",\n"
+	            + "                \"account_number\": \"" + account_number + "\",\n"
+	            + "                \"mobile_number\": \"" + mobile_number + "\",\n"
+	            + "                \"terminalId\": \"\",\n"
+	            + "                \"name\": \"" + company_name + "\",\n"
+	            + "                \"bank_name\": \"" + bank_name + "\",\n"
+	            + "                \"mcc\": \"" + mcc + "\",\n"
+	            + "                \"ifsc_code\": \"" + ifsc_code + "\",\n"
+	            + "                \"sid\": \"" + sid + "\",\n"
+	            + "                \"additionalNo\": \"\",\n"
+	            + "                \"checksum\": \"ytydtdgdggdg1200345\"\n"
+	            + "            }\n"
+	            + "        }\n"
+	            + "    }\n"
+	            + "}";
+
+
+    	 
+        com.google.gson.JsonObject json = JsonParser.parseString(GET_PAY_LOAD_PLAIN).getAsJsonObject();
         return sign(json.toString());
     }
-    private static final String PAY_LOAD_PLAIN ="{\n"
-            + "    \"Request\": {\n"
-            + "        \"body\": {\n"
-            + "            \"encryptData\": {\n"
-            + "                \"mid\": \"SKYWALK001\",\n"
-            + "                \"channel\": \"api\",\n"
-            + "                \"account_number\": \"120029938874\",\n"
-            + "                \"mobile_number\": \"8527723931\",\n"
-            + "                \"terminalId\": \"\",\n"
-            + "                \"name\": \"SK PRIVATE LIMITED\",\n"
-            + "                \"bank_name\": \"Canara Bank\",\n"
-            + "                \"mcc\": \"6012\",\n"
-            + "                \"ifsc_code\": \"CNRB0003896\",\n"
-            + "                \"sid\": \"LETSPE0020\",\n"
-            + "                \"additionalNo\": \"\",\n"
-            + "                \"checksum\": \"ytydtdgdggdg1200345\"\n"
-            + "            }\n"
-            + "        }\n"
-            + "    }\n"
-            + "}";
+   
 
     public void demonstrateEncryptionAndDecryption() {
         try {
             // Encrypt the data
-            String encryptedData = encryptDataToEncrypt();
+            String encryptedData = encryptDataToEncrypt(null);
             System.out.println("Encrypted Data: " + encryptedData);
 
             // Decrypt the data
