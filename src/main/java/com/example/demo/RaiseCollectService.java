@@ -13,6 +13,7 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
+import java.util.Map;
 
 @Service
 public class RaiseCollectService {
@@ -46,59 +47,66 @@ public class RaiseCollectService {
 	
     private static final String SHARED_SYMMETRIC_KEY = "0d113e69b524db3a4fd7584affa7465c262cc03d89fe09ac75d1445141481f2b";
 	
-  private static final String DATA_TO_ENCRYPT = "{\n"
-			    + "    \"source\": \"SKYWALK001\",\n"
+  
+
+    public String encryptDataToEncrypt(Map<String, String> allParams) throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
+    	
+    		String GET_DATA_TO_ENCRYPT = "{\n"
+			    + "    \"source\":  \"" + allParams.get("mid") + "\",\n"
 			    + "    \"channel\": \"api\",\n"
 			    + "    \"terminalId\": \"\",\n"
-			    + "    \"customerName\": \"WELCOME HOTEL\",\n"
-			    + "    \"amount\": \"2.00\",\n"
-			    + "    \"remark\": \"Merchant to Payment\",\n"
-			    + "    \"requestTime\": \"2024-08-22 19:50:36\",\n"
-			    + "    \"extTransactionId\": \"Test12345677899868679731012\",\n"
-			    + "    \"upiId\": \"7379976047@ybl\",\n"
+			    + "    \"customerName\": \"" + allParams.get("fullname") + "\",\n"
+			    + "    \"amount\": \"" + allParams.get("amount") + "\",\n"
+			    + "    \"remark\": \"" + allParams.get("dba") + "\",\n"
+			    + "    \"requestTime\": \"" + allParams.get("requestTime") + "\",\n"
+			    + "    \"extTransactionId\": \"" + allParams.get("transID") + "\",\n"
+			    + "    \"upiId\": \"" + allParams.get("vpa") + "\",\n"
 			    + "    \"param_1\": \"10\",\n"
-			    + "    \"sid\": \"LETSPE0020\",\n"
-			    + "    \"payee_vpa\": \"skp.skywalk001.letspe0020@cnrb\",\n"
+			    + "    \"sid\": \"" + allParams.get("sid") + "\",\n"
+			    + "    \"payee_vpa\": \"" + allParams.get("upiId") + "\",\n"
 			    + "    \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
 			    + "}";
-
-    public String encryptDataToEncrypt() throws NoSuchAlgorithmException, UnsupportedEncodingException, JoseException, InvalidKeySpecException, DecoderException {
-        return encrypt(DATA_TO_ENCRYPT);
+    	
+        return encrypt(GET_DATA_TO_ENCRYPT);
     }
 
     public String decryptData(String encryptedInput) throws JoseException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException, DecoderException {
         return decrypt(encryptedInput);
     }
 
-    public String signData() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
-        com.google.gson.JsonObject json = JsonParser.parseString(PAY_LOAD_PLAIN).getAsJsonObject();
+    public String signData(Map<String, String> allParams) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+    	
+    		String GET_PAY_LOAD_PLAIN ="{\n"
+			    + "    \"Request\": {\n"
+			    + "        \"body\": {\n"
+			    + "            \"encryptData\": {\n"
+			    + "                \"source\": \"" + allParams.get("mid") + "\",\n"
+			    + "                \"channel\": \"api\",\n"
+			    + "                \"terminalId\": \"\",\n"
+			    + "                \"customerName\": \"" + allParams.get("fullname") + "\",\n"
+			    + "                \"amount\": \"" + allParams.get("amount") + "\",\n"
+			    + "                \"remark\": \"" + allParams.get("dba") + "\",\n"
+			    + "                \"requestTime\": \"" + allParams.get("requestTime") + "\",\n"
+			    + "                \"extTransactionId\": \"" + allParams.get("transID") + "\",\n"
+			    + "                \"upiId\": \"" + allParams.get("vpa") + "\",\n"
+			    + "                \"param_1\": \"10\",\n"
+			    + "                \"sid\": \"" + allParams.get("sid") + "\",\n"
+			    + "                \"payee_vpa\": \"" + allParams.get("upiId") + "\",\n"
+			    + "                \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
+			    + "            }\n"
+			    + "        }\n"
+			    + "    }\n"
+			    + "}";
+    		
+    	
+        com.google.gson.JsonObject json = JsonParser.parseString(GET_PAY_LOAD_PLAIN).getAsJsonObject();
         return sign(json.toString());
     }
-   private static final String PAY_LOAD_PLAIN ="{\n"
-				    + "    \"Request\": {\n"
-				    + "        \"body\": {\n"
-				    + "            \"encryptData\": {\n"
-				    + "                \"source\": \"SKYWALK001\",\n"
-				    + "                \"channel\": \"api\",\n"
-				    + "                \"terminalId\": \"\",\n"
-				    + "                \"customerName\": \"WELCOME HOTEL\",\n"
-				    + "                \"amount\": \"2.00\",\n"
-				    + "                \"remark\": \"Merchant to Payment\",\n"
-				    + "                \"requestTime\": \"2024-08-22 19:50:36\",\n"
-				    + "                \"extTransactionId\": \"Test12345677899868679731012\",\n"
-				    + "                \"upiId\": \"7379976047@ybl\",\n"
-				    + "                \"param_1\": \"10\",\n"
-				    + "                \"sid\": \"LETSPE0020\",\n"
-				    + "                \"payee_vpa\": \"skp.skywalk001.letspe0020@cnrb\",\n"
-				    + "                \"checksum\": \"e1bd4415b9f44f724eb8f03602bc8524e2b513518a41dcdbc\"\n"
-				    + "            }\n"
-				    + "        }\n"
-				    + "    }\n"
-				    + "}";
+   
     public void demonstrateEncryptionAndDecryption() {
         try {
             // Encrypt the data
-            String encryptedData = encryptDataToEncrypt();
+            String encryptedData = encryptDataToEncrypt(null);
             System.out.println("Encrypted Data: " + encryptedData);
 
             // Decrypt the data
